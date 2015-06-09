@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 zf = zipfile.ZipFile('/Users/zahidpanjwani/Desktop/Code/Kaggle/Taxi-Trajectory/train.csv.zip')
 df = pd.read_csv(zf.open('train.csv'), converters={'POLYLINE': lambda x: json.loads(x)[-1:]})
 
-
+df_sort = df[0:10000].sort('TIMESTAMP')
 
 def plotFigure(image,season):
     plt.figure()
@@ -21,9 +21,10 @@ def plotFigure(image,season):
     fName = "end_points_" + season + ".png"
     plt.savefig(fName)
 
-def subsetData(df,start,end):
-    df = df[start,end]
-    latlong = np.array([[p[0][1], p[0][0]] for p in df['POLYLINE'] if len(p)>0])
+def subsetData(df2,start,end):
+    df1 = df2[start:end]
+    df1.sort('TIMESTAMP')
+    latlong = np.array([[p[0][1], p[0][0]] for p in df1['POLYLINE'] if len(p)>0])
     # cut off long distance trips
     lat_low, lat_hgh = np.percentile(latlong[:,0], [2, 98])
     lon_low, lon_hgh = np.percentile(latlong[:,1], [2, 98])
@@ -35,10 +36,10 @@ def subsetData(df,start,end):
     img = np.log(H2[::-1, :] + 1)
     return img
 
-img = subsetData(df,0,10000)
-img2 = subsetData(df,10001,20000)
-img3 = subsetData(df,20001,30000)
+img = subsetData(df,0,25000)
+img2 = subsetData(df,25001,50000)
+img3 = subsetData(df_sort,500,5050)
 
-plotFigure(img,'winter')
-plotFigure(img2,'spring')
-plotFigure(img3,'summer')
+plotFigure(img,'summer')
+plotFigure(img2,'fall')
+plotFigure(img3,'day')
