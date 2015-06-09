@@ -4,6 +4,16 @@
 
 First off, we have to look at missing data. The good thing is that we mainly need trip ID, taxi ID, and the coordinates at a given time, and most of the data has this information.
 
+Let's understand the data (some columns removed):
+```
+ROW       TRIP_ID                  CALL       MISS     ORIG   TAXI_ID
+1710046  1404165960620000403       B          NaN       53     20000403
+1710173  1404167765620000403       B          NaN       53     20000403
+1710193  1404171239620000403       B          NaN       18     20000403
+```
+
+` TRIP_ID = TIMESTAMP + '6' + TAXI_ID `
+
 Next, we need to group timestamps and coordinates with a particular trip. This complicates things a bit because our predictions are not a simple `Y = X1 + X2 + X3 ...`
 
 Instead, each trip must follow a particular trajectory. Each trip however, can be of a different length, so if X1 and X2 are mapped to time [0,15] and [15,30], respectively, then different trips will have different numbers of X variables associated with them.
