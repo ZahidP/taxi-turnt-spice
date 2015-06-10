@@ -17,7 +17,7 @@ ROW       TRIP_ID                  CALL       MISS     ORIG   TAXI_ID
 
 ` TRIP_ID = TIMESTAMP + '6' + TAXI_ID `
 
-...`
+
 
 Each trip must follow a particular trajectory. Each trip however, can be of a different length, so if X1 and X2 are mapped to time [0,15] and [15,30], respectively, then different trips will have different numbers of X variables associated with them.
 
@@ -31,8 +31,18 @@ Y(2) = Y(1) + X(2)
 Y(t) = Y(t-1) + X(t)
 ```
 
-This can be simplified because we only need to predict the final destination, using the initial trajectory.
+We only need to predict the final destination, using the initial trajectory.
 
 
-This depends on how we define the initial trajectory. 
+This depends on how we define the initial trajectory.
 
+### Strategy
+
+1. Define positions, plus trajectories.
+   - We will use a coordinate plus its X trajectory and Y trajectory.
+   - Example: `Y_init` can be paired with the direction obtained from `Y(0) to Y(3)`
+2. Define "zones" in which coordinates
+   - For now we will need to break up the map into many zones in order to be able to classify locations accordingly
+   - A coordinate pair cannot be treated independently ie. `[lat,lng] -> X_1 and X_2` or treated as continuous numerical variables
+   - Longitude and latitude classify points across the entire world, but here we are only considering a city. So it might be best to define zones within Porto.
+   
