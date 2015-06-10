@@ -10,6 +10,7 @@ df = pd.read_csv('/Users/zahidpanjwani/Desktop/Code/Kaggle/Taxi-Trajectory/datas
 
 df = df.drop('Unnamed: 0',1)
 
+# calculate haversine distance
 def haversDist(lat1,lon1,lat2,lon2):
     REarth = 6371
     pi = math.pi
@@ -22,12 +23,16 @@ def haversDist(lat1,lon1,lat2,lon2):
     d = REarth*d
     return d
 
+# count the length of the polyline list
 def countPoly(polyList):
     polylength = len(polyList)
     return polylength
 
+# get the initial direction
 def initDir(polyList,polylength):
-    firstThird = polylength/3
+    firstThird = Math.ceil(polylength/3)
+
+
 
 #df['POLYCOUNT'] = df.apply(countPoly, axis=1)
 
