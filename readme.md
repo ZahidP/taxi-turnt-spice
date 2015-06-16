@@ -51,4 +51,4 @@ This depends on how we define the initial trajectory.
 3. Define clusters
    - This can help with zone definition, prediction and hopefully other things as well.
    - The idea is to break up trips into logical clusters. They be trips to work, to a bar, morning trips, evening trips etc.
-   - We can cluster initial trajectories, initial locations, or final locations.     
+   - We can cluster initial trajectories, initial locations, or final locations.

@@ -23,6 +23,34 @@ def haversDist(lat1,lon1,lat2,lon2):
     d = REarth*d
     return d
 
+# break start points into regions
+def zoning(lat,lng,df):
+    if (lng <= -8.64):
+        zoneLng = 1
+    elif (lng > -8.64 && lng <= -8.62):
+        zoneLng = 2
+    elif (lng > -8.62 && lng <= -8.60):
+        zoneLng = 3
+    elif (lng > -8.60):
+        zoneLng = 4
+
+    if (lat <= 41.14):
+        zoneLat = 1
+    elif (lat > 41.14 && lat <= 41.16):
+        zoneLat = 2
+    elif (lat > 41.16 && lat <= 41.18):
+        zoneLat = 3
+    elif (lat > 41.18):
+        zoneLat = 4
+
+    return [zoneLat,zoneLng]
+
+
+
+
+
+
+
 # count the length of the polyline list
 def countPoly(polyList):
     polylength = len(polyList)
@@ -34,8 +62,14 @@ def initDir(polyList,polylength):
 
 
 
+
+
+
 #df['POLYCOUNT'] = df.apply(countPoly, axis=1)
 
 #for index, row in df_train.iterrows():
 a = haversDist(40.123,40.123,41.12,41.23)
 print(a)
+
+
+for index, row in df_train.iterrows():

@@ -11,9 +11,9 @@ import datetime
 df = pd.read_csv('/Users/zahidpanjwani/Desktop/Code/Kaggle/Taxi-Trajectory/datasets/small_df.csv')
 
 
-{n[0] : str(n[1]) for n in l}
+#{n[0] : str(n[1]) for n in l}
 df_train = df[0:10000]
-df_test = df[40001:49999]
+df_test = df[20001:24999]
 df_train.insert(len(df_train.columns),'hour',0)
 arr = df_train.as_matrix()
 
