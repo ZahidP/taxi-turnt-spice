@@ -2,3 +2,7 @@ sampleSubmission.csv.zip
 train.csv
 test.csv.zip
 train.csv.zip
+.ipynb_checkpoints/
+datasets/sampleSubmission.csv
+Untitled.ipynb
+py/__pycache__/
