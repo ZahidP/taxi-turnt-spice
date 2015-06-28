@@ -10,29 +10,29 @@ import geo_metrics as gmt
 
 # reading training data
 # #####  zf = zipfile.ZipFile('../input/train.csv.zip')
-df = pd.read_csv('/Users/zahidpanjwani/Desktop/Code/Kaggle/Taxi-Trajectory/datasets/test.csv',converters={'POLYLINE': lambda x:json.loads(x)})
+df_t = pd.read_csv('/Users/zahidpanjwani/Desktop/Code/Kaggle/Taxi-Trajectory/datasets/df_test.csv',converters={'POLYLINE': lambda x:json.loads(x)})
 
 
 #{n[0] : str(n[1]) for n in l}
-df_train = df[0:5000]
-df_train.insert(len(df_train.columns),'hour',0)
-df_train.insert(len(df_train.columns),'lngSt',0)
-df_train.insert(len(df_train.columns),'latSt',0)
-df_train.insert(len(df_train.columns),'lngNxt',0)
-df_train.insert(len(df_train.columns),'latNxt',0)
-df_train.insert(len(df_train.columns),'angle',0)
-df_train.insert(len(df_train.columns),'lngFin',0)
-df_train.insert(len(df_train.columns),'latFin',0)
+
+df_t.insert(len(df_t.columns),'hour',0)
+df_t.insert(len(df_t.columns),'lngSt',0)
+df_t.insert(len(df_t.columns),'latSt',0)
+df_t.insert(len(df_t.columns),'lngNxt',0)
+df_t.insert(len(df_t.columns),'latNxt',0)
+df_t.insert(len(df_t.columns),'angle',0)
+df_t.insert(len(df_t.columns),'lngFin',0)
+df_t.insert(len(df_t.columns),'latFin',0)
 
 
 
-arr = df_train.as_matrix()
+arr = df_t.as_matrix()
 
 # sort data by timestamp
 # add hour to dataframe
 # this takes a long time only do it once
 # very inefficient! fix it
-for index, row in df_train.iterrows():
+for index, row in df_t.iterrows():
     a = datetime.datetime.fromtimestamp(row.TIMESTAMP).strftime('%d:%H:%M')
     (d, h, m) = a.split(':')
     # get hour
@@ -49,33 +49,33 @@ for index, row in df_train.iterrows():
         hr = 5
     else:
         hr = 6
-    df_train.ix[index,'hour'] = hr
+    df_t.ix[index,'hour'] = hr
     # get initial and final position
     if (len(row.POLYLINE) > 0):
         lng = row.POLYLINE[0][0]
         lat = row.POLYLINE[0][1]
         lngFin = row.POLYLINE[len(row.POLYLINE)-1][0]
         latFin = row.POLYLINE[len(row.POLYLINE)-1][1]
-        df_train.ix[index,'lngSt'] = lng
-        df_train.ix[index,'latSt'] = lat
+        df_t.ix[index,'lngSt'] = lng
+        df_t.ix[index,'latSt'] = lat
         zoneSt = gmt.zoning(row.POLYLINE[0][1],row.POLYLINE[0][0])
-        df_train.ix[index,'lngStZn'] = zoneSt[1]
-        df_train.ix[index,'latStZn'] = zoneSt[0]
-        df_train.ix[index,'stZn'] = str(zoneSt[1]) + str(zoneSt[0])
-        df_train.ix[index,'lngFin'] = lngFin
-        df_train.ix[index,'latFin'] = latFin
+        df_t.ix[index,'lngStZn'] = zoneSt[1]
+        df_t.ix[index,'latStZn'] = zoneSt[0]
+        df_t.ix[index,'stZn'] = str(zoneSt[1]) + str(zoneSt[0])
+        df_t.ix[index,'lngFin'] = lngFin
+        df_t.ix[index,'latFin'] = latFin
         zoneFin = gmt.zoning(latFin,lngFin)
-        df_train.ix[index,'lngFinZn'] = zoneFin[1]
-        df_train.ix[index,'latFinZn'] = zoneFin[0]
-        df_train.ix[index,'finZn'] = str(zoneFin[1]) + str(zoneFin[0])
+        df_t.ix[index,'lngFinZn'] = zoneFin[1]
+        df_t.ix[index,'latFinZn'] = zoneFin[0]
+        df_t.ix[index,'finZn'] = str(zoneFin[1]) + str(zoneFin[0])
         # get middle position
         if (len(row.POLYLINE) > 3):
             lngNxt = row.POLYLINE[3][0]
             latNxt = row.POLYLINE[3][1]
-            df_train.ix[index,'lngNxt'] = lngNxt
-            df_train.ix[index,'latNxt'] = latNxt
+            df_t.ix[index,'lngNxt'] = lngNxt
+            df_t.ix[index,'latNxt'] = latNxt
             zoneNxt = gmt.zoning(row.POLYLINE[3][1],row.POLYLINE[3][0])
-            df_train.ix[index,'nxtZn'] = str(zoneNxt[1]) + str(zoneNxt[0])
+            df_t.ix[index,'nxtZn'] = str(zoneNxt[1]) + str(zoneNxt[0])
             if (lng and lat and lngNxt and latNxt):
                 # get angle function
                 opp = latNxt*68 - lat*68
@@ -83,7 +83,7 @@ for index, row in df_train.iterrows():
                 angle = 0
                 if (adj > 0.00001):
                     angle = math.atan(opp/adj)
-                df_train.ix[index,'angle'] = angle
+                df_t.ix[index,'angle'] = angle
 
-print(df_train[0:10])
-df_train.to_csv("/Users/zahidpanjwani/Desktop/Code/Kaggle/Taxi-Trajectory/datasets/test_2.csv",sep=",")
+print(df_t[0:10])
+df_t.to_csv("/Users/zahidpanjwani/Desktop/Code/Kaggle/Taxi-Trajectory/datasets/test_3.csv",sep=",")
